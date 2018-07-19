@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册界面</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+</head>
+<body>
+<div class="container demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+            <div class="logo_box" style="text-align: center;">
+                <h3>欢迎你</h3>
+                <div class="input_outer">
+                    <input id="uname" class="text" style="color: cyan !important" type="text" placeholder="请输入账号">
+                </div>
+                <div class="input_outer" >
+                    <input id="upass" class="text" style="color: cyan !important; z-index:100;"
+                           value="" type="password" placeholder="请输入密码">
+                </div>
+                <div class="input_outer" >
+                    <input id="upass1" class="text" style="color: cyan !important; z-index:100;"
+                           value="" type="password" placeholder="请再次输入密码">
+                </div>
+                <div>
+                    <button onclick="fnregist()" class="lb2" style="color: lightblue"><a>注册</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+<div style="text-align:center;">
+</div>
+</body>
+<script>
+    function fnregist() {
+        var name = document.getElementById("uname").value;
+        var password = document.getElementById("upass").value;
+        var password2 = document.getElementById("upass1").value;
+        if(password == password2){
+            var json = [];
+            var row2 = {name:name,password:password}
+            json.push(row2);
+            var jsonStr = JSON.stringify(json);
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:8080/user/register",
+                data: jsonStr.replace("[","").replace("]",""),
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data);
+                    window.location.href='login.html';
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR+"\n");
+                    console.log(textStatus+"\n");
+                    console.log(errorThrown+"\n"); }
+            });
+            console.log("jsonStr = "+jsonStr.replace("[","").replace("]",""));
+        }else{
+            alert("两次密码不同，请重新输入密码");
+        }
+    }
+</script>
+</html>
